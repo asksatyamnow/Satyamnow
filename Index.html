@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satyamnow.in | Systematic Theology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9', // Deep Sky Blue
+                        primaryHover: '#0284c7',
+                        darkBg: '#0f172a',
+                        darkCard: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Merriweather', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        .view-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .view-section.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('home')">
+                    <div class="bg-primary text-white p-2 rounded-lg mr-3 shadow-lg shadow-primary/30">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">Satyam<span class="text-primary">now.in</span></span>
+                        <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold -mt-1">Seek The Truth</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <button id="t-navHome" onclick="navigateTo('home')" class="px-4 py-2 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary font-medium rounded-full transition">Home</button>
+                    <button id="t-navArticles" onclick="navigateTo('questions')" class="px-4 py-2 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary font-medium rounded-full transition">Library</button>
+                    
+                    <!-- Language Toggle -->
+                    <button onclick="toggleLanguage()" id="lang-toggle-btn" class="ml-4 px-3 py-1.5 rounded-full bg-sky-100 dark:bg-sky-900/50 text-primary dark:text-sky-400 font-bold text-sm hover:bg-sky-200 dark:hover:bg-sky-800 transition">
+                        EN
+                    </button>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" onclick="toggleTheme()" class="ml-2 p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="theme-toggle-mob" onclick="toggleTheme()" class="mr-4 p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button>
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-slate-600 dark:text-slate-300 hover:text-primary p-2">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 shadow-xl absolute w-full left-0">
+            <div class="px-4 py-4 space-y-2 flex flex-col">
+                <button id="t-mobHome" onclick="navigateTo('home'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left px-4 py-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium">Home</button>
+                <button id="t-mobArticles" onclick="navigateTo('questions'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left px-4 py-3 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium">Library</button>
+                <button onclick="toggleLanguage(); document.getElementById('mobile-menu').classList.add('hidden')" id="mob-lang-toggle-btn" class="text-center mt-2 bg-sky-100 dark:bg-sky-900/50 text-primary dark:text-sky-400 py-3 rounded-lg font-bold shadow-sm">Switch to Telugu</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        
+        <!-- ================= HOME PAGE ================= -->
+        <section id="home" class="view-section active">
+            <!-- Hero Section -->
+            <div class="relative bg-slate-900 dark:bg-black overflow-hidden">
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Starry night sky" class="w-full h-full object-cover opacity-30">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent dark:from-black dark:via-black/80"></div>
+                </div>
+                
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
+                    <div class="relative z-10">
+                        <span id="t-heroSub" class="inline-block py-1 px-3 rounded-full bg-white/20 text-white backdrop-blur-sm text-sm font-semibold tracking-wider mb-6">190 TOPICS • 10 DIVISIONS</span>
+                        <h1 id="t-heroTitle" class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">Systematic Theology <br class="hidden md:block"> Made Simple.</h1>
+                        <p id="t-heroDesc" class="text-lg md:text-xl text-sky-100 mb-10 max-w-2xl mx-auto font-light">Deep, biblically accurate, and accessible theological doctrines in English and Telugu.</p>
+                        
+                        <!-- Modern Search Bar -->
+                        <div class="relative max-w-xl mx-auto text-left group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-6 w-6 text-slate-400 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                            <input type="text" id="home-search" onkeyup="if(event.key === 'Enter') executeSearch()" placeholder="Search doctrines (e.g. Trinity, Atonement)..." class="w-full pl-12 pr-32 py-4 rounded-2xl bg-white dark:bg-slate-900/90 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-xl transition-all border-none">
+                            <button id="t-searchBtn" onclick="executeSearch()" class="absolute right-2 top-2 bottom-2 bg-primary text-white px-6 rounded-xl font-medium hover:bg-primaryHover transition shadow-sm">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Questions Cards -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <h2 id="t-popQuestions" class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Foundational Doctrines</h2>
+                        <p id="t-popDesc" class="text-slate-500 dark:text-slate-400 mt-2">Start your theological journey here.</p>
+                    </div>
+                    <button id="t-viewAll" onclick="navigateTo('questions')" class="hidden sm:flex items-center text-primary dark:text-sky-400 font-semibold hover:underline">
+                        View all 190 Topics <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="featured-cards">
+                    <!-- Cards injected by JS -->
+                </div>
+                
+                <div class="mt-8 text-center sm:hidden">
+                    <button onclick="navigateTo('questions')" class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold py-3 px-6 rounded-xl w-full">View All Topics</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LIBRARY PAGE (All Articles) ================= -->
+        <section id="questions" class="view-section">
+            <div class="bg-white dark:bg-darkBg py-10 border-b border-slate-200 dark:border-slate-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 id="t-libTitle" class="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Theology Library</h1>
+                    
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <!-- Categories -->
+                        <div class="overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:pb-0 w-full md:w-3/4">
+                            <div class="flex space-x-2" id="category-pills">
+                                <!-- Pills injected via JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Search -->
+                        <div class="relative w-full md:w-1/4">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                            <input type="text" id="page-search" onkeyup="handlePageSearch(event)" placeholder="Filter topics..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-sky-500 transition-shadow">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-darkBg min-h-screen py-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div id="all-questions-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- List injected by JS -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="no-results" class="hidden text-center py-16">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-800 mb-4">
+                            <svg class="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 id="t-noResults" class="text-xl font-bold text-slate-900 dark:text-white">No topics found</h3>
+                        <p id="t-noResultsDesc" class="text-slate-500 dark:text-slate-400 mt-2">Try adjusting your filters or search terms.</p>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div id="pagination-controls" class="mt-12 flex justify-center items-center space-x-4">
+                        <button onclick="prevPage()" id="prev-btn" class="p-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white hover:border-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        <span id="page-info" class="text-slate-700 dark:text-slate-300 font-medium">Page 1 of 1</span>
+                        <button onclick="nextPage()" id="next-btn" class="p-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white hover:border-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ARTICLE PAGE ================= -->
+        <section id="article" class="view-section">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+                <button id="t-backLib" onclick="navigateTo('questions')" class="text-primary dark:text-sky-400 hover:text-primaryHover transition mb-8 flex items-center text-sm font-semibold tracking-wide">
+                    <svg class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    BACK TO LIBRARY
+                </button>
+                
+                <article class="bg-white dark:bg-darkCard p-8 md:p-14 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+                    <div class="mb-6 flex items-center gap-3">
+                        <span id="article-category" class="bg-sky-100 dark:bg-sky-900/40 text-primary dark:text-sky-300 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Category</span>
+                    </div>
+                    
+                    <h1 id="article-title" data-id="" class="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-8 leading-tight">Article Title</h1>
+                    
+                    <div class="prose max-w-none prose-lg text-slate-700 dark:text-slate-300">
+                        <div id="article-explanation" class="leading-relaxed mb-8 space-y-6">Explanation goes here...</div>
+                        
+                        <div class="relative bg-slate-50 dark:bg-slate-800/60 border-l-4 border-primary dark:border-sky-500 p-8 my-10 rounded-r-2xl">
+                            <svg class="absolute top-4 right-4 text-slate-200 dark:text-slate-700 w-12 h-12 opacity-50" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" /></svg>
+                            <h3 id="t-bibleSays" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-6">Scriptural Foundation</h3>
+                            <div id="article-verses" class="space-y-6 relative z-10">
+                                <!-- Verses injected here -->
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h3 id="t-conclusion" class="font-bold text-slate-900 dark:text-white mb-4 text-xl border-b border-slate-100 dark:border-slate-800 pb-2">Practical Application</h3>
+                            <div id="article-conclusion" class="leading-relaxed">Conclusion goes here...</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center mb-6">
+                <svg class="w-8 h-8 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span class="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">Satyam<span class="text-primary">now.in</span></span>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">Equipping believers with sound doctrine through deep, accessible theological articles.</p>
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="text-slate-400 hover:text-primary transition"><span class="sr-only">Facebook</span><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg></a>
+                <a href="#" class="text-slate-400 hover:text-primary transition"><span class="sr-only">Twitter</span><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg></a>
+            </div>
+            <p class="mt-8 text-sm text-slate-500 dark:text-slate-500">&copy; 2026 Satyamnow.in. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- 1. DARK MODE & LANGUAGE LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        initTheme();
+
+        // Language State
+        let currentLang = localStorage.getItem('lang') || 'en';
+        
+        // Static UI Dictionary
+        const uiDictionary = {
+            en: {
+                navHome: "Home", navArticles: "Library",
+                mobHome: "Home", mobArticles: "Library",
+                heroSub: "190 TOPICS • 10 DIVISIONS", heroTitle: "Systematic Theology <br class='hidden md:block'> Made Simple.",
+                heroDesc: "Deep, biblically accurate, and accessible theological doctrines in English and Telugu.",
+                searchPlaceholder: "Search doctrines (e.g. Trinity, Atonement)...", searchBtn: "Search",
+                popQuestions: "Foundational Doctrines", popDesc: "Start your theological journey here.", viewAll: "View all Topics",
+                libTitle: "Theology Library", noResults: "No topics found", noResultsDesc: "Try adjusting your filters or search terms.",
+                backLib: "BACK TO LIBRARY", bibleSays: "Scriptural Foundation", conclusion: "Practical Application",
+                readArticle: "Read Doctrine", explore: "Study Topic"
+            },
+            te: {
+                navHome: "హోమ్", navArticles: "గ్రంథాలయం",
+                mobHome: "హోమ్", mobArticles: "గ్రంథాలయం",
+                heroSub: "190 అంశాలు • 10 విభాగాలు", heroTitle: "దైవశాస్త్రం (థియాలజీ) <br class='hidden md:block'> సులభంగా నేర్చుకోండి.",
+                heroDesc: "ఆంగ్లం మరియు తెలుగులో లోతైన, బైబిల్ ఆధారితమైన మరియు సులభంగా అర్థమయ్యే దైవశాస్త్ర సిద్ధాంతాలు.",
+                searchPlaceholder: "సిద్ధాంతాలను వెతకండి (ఉదా. త్రిత్వం, రక్షణ)...", searchBtn: "వెతకండి",
+                popQuestions: "ప్రాథమిక సిద్ధాంతాలు", popDesc: "మీ దైవశాస్త్ర ప్రయాణాన్ని ఇక్కడ ప్రారంభించండి.", viewAll: "అన్ని అంశాలను చూడండి",
+                libTitle: "థియాలజీ గ్రంథాలయం", noResults: "ఎటువంటి అంశాలు దొరకలేదు", noResultsDesc: "మీ సెర్చ్ పదాలను మార్చి ప్రయత్నించండి.",
+                backLib: "లైబ్రరీకి తిరిగి వెళ్లండి", bibleSays: "లేఖనాధారం (బైబిల్ ఏమి చెబుతుంది)", conclusion: "ఆచరణాత్మక అన్వయం",
+                readArticle: "సిద్ధాంతం చదవండి", explore: "అధ్యయనం చేయండి"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'te' : 'en';
+            localStorage.setItem('lang', currentLang);
+            
+            document.getElementById('lang-toggle-btn').textContent = currentLang === 'en' ? 'EN' : 'TE';
+            document.getElementById('mob-lang-toggle-btn').textContent = currentLang === 'en' ? 'Switch to Telugu' : 'Switch to English';
+            
+            updateStaticUI();
+            renderCategoryPills();
+            renderHomeCards();
+            updateLibraryView();
+            
+            const activeId = document.getElementById('article-title').getAttribute('data-id');
+            if (document.getElementById('article').classList.contains('active') && activeId) {
+                openArticle(activeId);
+            }
+        }
+
+        function updateStaticUI() {
+            const dict = uiDictionary[currentLang];
+            const keys = Object.keys(dict);
+            keys.forEach(key => {
+                const el = document.getElementById(`t-${key}`);
+                if (el) el.innerHTML = dict[key];
+            });
+            document.getElementById('home-search').placeholder = dict.searchPlaceholder;
+        }
+
+        // --- 2. SATYAMNOW CONTENT DATA ---
+        const articles = [
+            {
+                id: "1-existence-of-god", category: "Theology Proper",
+                en: {
+                    title: "1. The Existence of God",
+                    summary: "The rational, philosophical, and biblical foundations proving that a supreme Creator exists.",
+                    explanation: `<p>The Bible does not begin by attempting to mathematically prove God's existence; it assumes it boldly: "In the beginning God..." However, Christian theology provides robust, rational frameworks for why belief in God is the most logical conclusion regarding the universe.</p>
+                    <p>First, the <strong>Cosmological Argument</strong> states that whatever begins to exist must have a cause. Since astrophysics (the Big Bang) confirms the universe had a definitive beginning, it requires an uncaused, timeless, spaceless, and immensely powerful Cause to bring it into existence. That uncaused First Cause is what we call God.</p>
+                    <p>Second, the <strong>Teleological Argument</strong> (Intelligent Design) points to the staggering complexity of creation. The precise fine-tuning of the universe's physics, allowing for human life, and the vast amount of specific information encoded in human DNA, mathematically destroy the idea of random chance. A design requires a brilliant Designer.</p>
+                    <p>Finally, the <strong>Moral Argument</strong> observes that all human beings possess an innate conscience—a universal sense of right and wrong. If we are just random chemical accidents, objective morality cannot exist; murder wouldn't be "wrong," just socially inconvenient. Objective moral laws require a supreme Moral Lawgiver.</p>`,
+                    verses: [
+                        { text: "The heavens declare the glory of God; And the firmament shows His handiwork.", ref: "Psalm 19:1" },
+                        { text: "For since the creation of the world His invisible attributes are clearly seen, being understood by the things that are made, even His eternal power and Godhead...", ref: "Romans 1:20" }
+                    ],
+                    conclusion: `<p>We do not have to abandon logic to believe in God. While ultimate knowledge of Him requires faith, the evidence of the cosmos and our own conscience clearly points to a majestic Creator to whom we are accountable.</p>`
+                },
+                te: {
+                    title: "1. దేవుని ఉనికి",
+                    summary: "సృష్టికర్త ఉన్నాడని నిరూపించే హేతుబద్ధమైన, తాత్వికమైన మరియు బైబిల్ ఆధారాలు.",
+                    explanation: `<p>దేవుడు ఉన్నాడని గణితశాస్త్ర పరంగా నిరూపించడానికి బైబిల్ ప్రయత్నించదు; "ఆదియందు దేవుడు భూమ్యాకాశములను సృజించెను" అని గట్టిగా ప్రకటిస్తూ మొదలవుతుంది. అయినప్పటికీ, విశ్వం గురించి ఆలోచించినప్పుడు దేవుడు ఉన్నాడని నమ్మడమే అత్యంత తార్కికమైన ముగింపు అని క్రైస్తవ దైవశాస్త్రం బలమైన ఆధారాలను అందిస్తుంది.</p>
+                    <p>మొదటిది, <strong>సృష్టి ఆధారిత వాదన (Cosmological Argument)</strong>. ప్రారంభం ఉన్న ప్రతిదానికీ ఒక కారణం ఉండాలి. విశ్వానికి ఒక స్పష్టమైన ప్రారంభం ఉందని విజ్ఞాన శాస్త్రం (బిగ్ బ్యాంగ్) నిర్ధారించింది కాబట్టి, దానిని సృష్టించడానికి కారణం లేని, కాలానికి అతీతుడైన మరియు అపరిమితమైన శక్తి గల ఒకరు ఉండాలి. కారణం లేని ఆ మొదటి కారణాన్నే మనం దేవుడు అని పిలుస్తాము.</p>
+                    <p>రెండవది, <strong>డిజైన్ ఆధారిత వాదన (Teleological Argument)</strong>. సృష్టి ఎంత అద్భుతంగా, సంక్లిష్టంగా రూపొందించబడిందో ఇది వివరిస్తుంది. మానవ జీవితానికి అనుకూలంగా ఉండేలా విశ్వం అత్యంత కచ్చితత్వంతో నిర్మించబడటం, మరియు మనిషి DNA లో పొందుపరచబడిన అపారమైన సమాచారం... ఇవన్నీ యాదృచ్చికంగా జరిగాయనే వాదనను తిప్పికొడుతున్నాయి. అద్భుతమైన డిజైన్ ఉందంటే, దాన్ని రూపొందించిన గొప్ప డిజైనర్ ఉండి తీరాలి.</p>
+                    <p>చివరగా, <strong>నైతిక వాదన (Moral Argument)</strong>. మనుషులందరికీ సహజంగానే అంతరాత్మ (తప్పు-ఒప్పుల విచక్షణ) ఉంటుంది. మనం కేవలం రసాయన చర్యల వల్ల యాదృచ్చికంగా పుట్టినట్లయితే, కచ్చితమైన నైతికత అనేది ఉండదు. కాబట్టి, సార్వత్రిక నైతిక నియమాలు ఉన్నాయంటే, ఆ నియమాలను ఇచ్చిన గొప్ప నైతిక న్యాయాధిపతి (దేవుడు) ఉన్నాడని అర్థం.</p>`,
+                    verses: [
+                        { text: "ఆకాశములు దేవుని మహిమను వివరించుచున్నవి, అంతరిక్షము ఆయన చేతిపనిని ప్రచురపరచుచున్నది.", ref: "కీర్తనలు 19:1" },
+                        { text: "ఆయన అదృశ్యలక్షణములు, అనగా ఆయన నిత్యశక్తియు దేవత్వమును, జగదుత్పత్తి మొదలుకొని సృష్టింపబడిన వస్తువులను ఆలోచించుటవలన తేటపడుచున్నవి...", ref: "రోమీయులకు 1:20" }
+                    ],
+                    conclusion: `<p>దేవుని నమ్మడానికి మనం లాజిక్ ను వదిలిపెట్టాల్సిన అవసరం లేదు. ఆయనను పూర్తిగా తెలుసుకోవడానికి విశ్వాసం అవసరం అయినప్పటికీ, ఈ విశ్వం మరియు మన అంతరాత్మ మనం జవాబుదారీగా ఉండాల్సిన గొప్ప సృష్టికర్త ఉన్నాడని స్పష్టంగా చూపుతున్నాయి.</p>`
+                }
+            },
+            {
+                id: "26-who-is-jesus", category: "Christology",
+                en: {
+                    title: "26. Who is Jesus Christ?",
+                    summary: "The foundational doctrine of the Hypostatic Union: Jesus is fully God and fully man.",
+                    explanation: `<p>The identity of Jesus Christ is the absolute center of Christianity. If Jesus is not who He claimed to be, the entire Christian faith collapses. Orthodox theology affirms what is known as the <em>Hypostatic Union</em>. This means that in the single person of Jesus Christ, two distinct natures—perfect humanity and absolute deity—are perfectly united forever, without confusion or mixture.</p>
+                    <p><strong>Jesus is fully God.</strong> He did not become God at His baptism or resurrection. He is the eternal Second Person of the Trinity. He possesses all the attributes of God: He forgave sins, commanded nature, accepted worship, and declared, "Before Abraham was, I AM" (John 8:58), deliberately applying the holy name of God (Yahweh) to Himself.</p>
+                    <p><strong>Jesus is fully Man.</strong> In the Incarnation, He did not stop being God; rather, He added a human nature to Himself. He experienced physical hunger, exhaustion, deep sorrow, and severe temptation. Yet, unlike us, He lived a completely sinless life. This dual nature was an absolute necessity for our salvation. As man, He could represent humanity and pay our penalty by dying. As God, His life had infinite value to satisfy the infinite justice of the Father.</p>`,
+                    verses: [
+                        { text: "In the beginning was the Word, and the Word was with God, and the Word was God... And the Word became flesh and dwelt among us.", ref: "John 1:1, 14" },
+                        { text: "For in Him dwells all the fullness of the Godhead bodily;", ref: "Colossians 2:9" }
+                    ],
+                    conclusion: `<p>Jesus is not merely a good moral teacher, an enlightened mystic, or a prophet. He is the sovereign Creator of the universe who wrapped Himself in human flesh to bleed for His rebellious creation.</p>`
+                },
+                te: {
+                    title: "26. యేసుక్రీస్తు ఎవరు?",
+                    summary: "యేసుక్రీస్తు పూర్తిగా దేవుడు మరియు పూర్తిగా మానవుడు అని వివరించే ముఖ్యమైన సిద్ధాంతం.",
+                    explanation: `<p>యేసుక్రీస్తు గుర్తింపే క్రైస్తవ విశ్వాసానికి కేంద్ర బిందువు. ఆయన తనను తాను ఎవరని ప్రకటించుకున్నాడో ఆ మాటలు నిజం కాకపోతే, క్రైస్తవ విశ్వాసానికే పునాది లేదు. యేసుక్రీస్తు అనే ఒకే వ్యక్తిలో రెండు విభిన్న స్వభావాలు (సంపూర్ణ దైవత్వం మరియు సంపూర్ణ మానవత్వం) ఒకదానితో ఒకటి కలిసిపోకుండా శాశ్వతంగా ఏకమై ఉన్నాయని దైవశాస్త్రం గట్టిగా నిర్ధారిస్తుంది.</p>
+                    <p><strong>యేసు పూర్తిగా దేవుడు.</strong> ఆయన బాప్తిస్మం తీసుకున్నప్పుడో లేదా పునరుత్థానం చెందినప్పుడో దేవునిగా మారలేదు. ఆయన నిత్యత్వం నుండి త్రిత్వంలోని రెండవ వ్యక్తి (కుమారుడు). ఆయనకు దేవుని లక్షణాలన్నీ ఉన్నాయి: ఆయన పాపాలను క్షమించాడు, ప్రకృతిని శాసించాడు, ఆరాధనను స్వీకరించాడు మరియు "అబ్రాహాము పుట్టకమునుపే నేను ఉన్నాను" (యోహాను 8:58) అని దేవుని పరిశుద్ధ నామాన్ని తనకు తాను ఆపాదించుకున్నాడు.</p>
+                    <p><strong>యేసు పూర్తిగా మానవుడు.</strong> ఆయన భూమిపై అవతరించినప్పుడు, దేవునిగా ఉండటం మానేయలేదు; కానీ దైవత్వానికి మానవత్వాన్ని జోడించుకున్నాడు. ఆయన ఆకలి, అలసట, తీవ్రమైన దుఃఖం మరియు శోధనలను అనుభవించాడు. కానీ మనలా కాకుండా, ఆయన ఏ పాపమూ చేయకుండా పవిత్రంగా జీవించాడు. మన రక్షణకు ఆయన ఈ రెండు స్వభావాలు కలిగి ఉండటం అత్యవసరం. మానవునిగా, ఆయన మన స్థానంలో నిలబడి మన శిక్షను భరించగలడు. దేవునిగా, ఆయన అర్పించిన బలికి తండ్రి యొక్క అనంతమైన న్యాయాన్ని తీర్చగల అనంతమైన విలువ ఉంది.</p>`,
+                    verses: [
+                        { text: "ఆదియందు వాక్యముండెను, వాక్యము దేవునియొద్ద ఉండెను, వాక్యము దేవుడై యుండెను... ఆ వాక్యము శరీరధారియై, కృపాసత్యసంపూర్ణుడుగా మనమధ్య నివసించెను.", ref: "యోహాను 1:1, 14" },
+                        { text: "ఏలయనగా దేవత్వముయొక్క సర్వపరిపూర్ణత శరీరముగా క్రీస్తునందు నివసించుచున్నది.", ref: "కొలొస్సయులకు 2:9" }
+                    ],
+                    conclusion: `<p>యేసు కేవలం ఒక మంచి నీతి బోధకుడు లేదా ప్రవక్త మాత్రమే కాదు. ఆయన విశ్వాన్ని సృష్టించిన సృష్టికర్త, మన పాపాల కోసం రక్తం చిందించడానికి మానవ శరీరాన్ని ధరించిన రక్షకుడు.</p>`
+                }
+            },
+            {
+                id: "51-who-is-holy-spirit", category: "Pneumatology",
+                en: {
+                    title: "51. Who is the Holy Spirit?",
+                    summary: "Understanding the deity, personality, and critical role of the Third Person of the Trinity.",
+                    explanation: `<p>A common theological error is viewing the Holy Spirit merely as an impersonal force, like gravity or electricity, or simply as an emotional atmosphere during a church service. The Bible fiercely contradicts this. The Holy Spirit is a distinct, living Person. He possesses a mind (Romans 8:27), emotions (Ephesians 4:30), and a will (1 Cor 12:11). He can be lied to, insulted, and grieved.</p>
+                    <p>Furthermore, the Holy Spirit is fully God, co-equal and co-eternal with the Father and the Son. When Ananias lied to the Holy Spirit in Acts 5, the Apostle Peter told him plainly, "You have not lied to men but to God." He possesses the divine attributes of omnipresence, omniscience, and omnipotence, and was actively involved in the creation of the universe.</p>
+                    <p>In the New Covenant, the Spirit's role is breathtakingly intimate. He is the Agent of Regeneration—making spiritually dead hearts come alive to believe in Jesus. At the moment of salvation, He permanently indwells the believer, acting as a "seal" that guarantees our future glorification. He then continually works to sanctify us (making us holy), illuminate the Scriptures to our understanding, intercede for us in prayer, and empower us with spiritual gifts to serve the Church.</p>`,
+                    verses: [
+                        { text: "However, when He, the Spirit of truth, has come, He will guide you into all truth; for He will not speak on His own authority...", ref: "John 16:13" },
+                        { text: "And do not grieve the Holy Spirit of God, by whom you were sealed for the day of redemption.", ref: "Ephesians 4:30" }
+                    ],
+                    conclusion: `<p>The Holy Spirit is not an "it"; He is "He"—the personal presence of the Living God on earth. Without His active, daily empowerment, the Christian life is completely impossible to live.</p>`
+                },
+                te: {
+                    title: "51. పరిశుద్ధాత్మ ఎవరు?",
+                    summary: "త్రిత్వంలోని మూడవ వ్యక్తి యొక్క దైవత్వం, వ్యక్తిత్వం మరియు ఆయన పాత్రను అర్థం చేసుకోవడం.",
+                    explanation: `<p>పరిశుద్ధాత్మ అనగానే ఆయన గురుత్వాకర్షణ శక్తి లేదా కరెంటు లాంటి ఒక శక్తి అని, లేదా ఆరాధనలో కలిగే భావోద్వేగం అని చాలామంది పొరబడుతుంటారు. కానీ బైబిల్ దీనిని ఖండిస్తోంది. పరిశుద్ధాత్మ ఒక స్పష్టమైన, సజీవమైన వ్యక్తి. ఆయనకు మనస్సు (రోమా 8:27), భావోద్వేగాలు (ఎఫెసీ 4:30) మరియు చిత్తం (1 కొరింథీ 12:11) ఉన్నాయి. ఆయనకు అబద్ధం చెప్పవచ్చు, ఆయనను దుఃఖపెట్టవచ్చు.</p>
+                    <p>అంతేకాకుండా, పరిశుద్ధాత్మ పూర్తిగా దేవుడు; ఆయన తండ్రి, కుమారులతో సమానమైనవాడు మరియు నిత్యుడు. అపొస్తలుల కార్యములు 5 వ అధ్యాయంలో అననీయ పరిశుద్ధాత్మతో అబద్ధం ఆడినప్పుడు, "నీవు మనుష్యులతో కాదు దేవునితోనే అబద్ధమాడితివి" అని పేతురు స్పష్టంగా చెప్పాడు. ఆయనకు అంతటా ఉండే లక్షణం (సర్వాంతర్యామి), అన్నీ తెలిసిన లక్షణం (సర్వజ్ఞాని) మరియు సర్వశక్తి ఉన్నాయి. సృష్టి కార్యంలో కూడా ఆయన చురుకుగా పాల్గొన్నాడు.</p>
+                    <p>క్రొత్త నిబంధనలో, పరిశుద్ధాత్మ పాత్ర అత్యంత ముఖ్యమైనది. ఆధ్యాత్మికంగా చనిపోయిన మన హృదయాలను బ్రతికించి యేసును నమ్మేలా చేసేది ఆయనే. మనం రక్షించబడిన క్షణంలో, ఆయన విశ్వాసిలో శాశ్వతంగా నివసిస్తాడు. మన భవిష్యత్తు మహిమకు (పరలోకానికి) ఆయన ఒక "ముద్ర" గా ఉంటాడు. అప్పటినుండి ఆయన మనల్ని పవిత్రపరుస్తూ, వాక్యాన్ని అర్థం చేసుకునేలా చేస్తూ, ప్రార్థనలో మన పక్షాన విజ్ఞాపన చేస్తూ, సంఘానికి సేవ చేయడానికి మనకు ఆత్మ వరాలను ఇస్తాడు.</p>`,
+                    verses: [
+                        { text: "అయితే ఆయన, అనగా సత్యస్వరూపియైన ఆత్మ వచ్చినప్పుడు మిమ్మును సర్వసత్యములోనికి నడిపించును; ఆయన తనంతట తానే యేమియు బోధింపక...", ref: "యోహాను 16:13" },
+                        { text: "దేవుని పరిశుద్ధాత్మను దుఃఖపరచకుడి; విమోచన దినమువరకు ఆయనయందు మీరు ముద్రింపబడియున్నారు.", ref: "ఎఫెసీయులకు 4:30" }
+                    ],
+                    conclusion: `<p>పరిశుద్ధాత్మ ఒక "శక్తి" కాదు; ఆయన "వ్యక్తి" — ఈ భూమిపై ఉన్న సజీవ దేవుని ప్రత్యక్షత. ఆయన రోజువారీ సహాయం మరియు శక్తి లేకుండా క్రైస్తవ జీవితం జీవించడం అసాధ్యం.</p>`
+                }
+            },
+            {
+                id: "71-creation-of-man", category: "Anthropology",
+                en: {
+                    title: "71. The Creation of Man",
+                    summary: "The crown jewel of creation made intentionally in the Imago Dei (Image of God).",
+                    explanation: `<p>The biblical doctrine of the creation of humanity radically opposes secular naturalism. According to modern secular philosophy, human beings are merely highly evolved animals—accidents of blind, unguided chemical processes in a meaningless universe. If this is true, human life has no objective value or ultimate purpose.</p>
+                    <p>Theology Proper teaches something profoundly different. Genesis records that after God spoke the galaxies, oceans, and animals into existence, He paused. The creation of humanity was deeply personal and deliberate. God formed the body of man from the dust of the ground (showing our physical link to creation and our frailty) and breathed His own breath into him (showing our spiritual link to the Creator). We are biological, yet spiritual beings.</p>
+                    <p>Crucially, humans are the *only* creatures made in the <em>Imago Dei</em>—the Image of God. This does not mean we look like God physically (since God is spirit). It means we reflect His attributes: we possess rational intellect, complex emotions, moral capacity, and the ability to exercise dominion (stewardship) over the earth. Because every human bears this divine stamp, every single human life—regardless of age, race, or ability—possesses absolute, intrinsic, and sacred dignity.</p>`,
+                    verses: [
+                        { text: "So God created man in His own image; in the image of God He created him; male and female He created them.", ref: "Genesis 1:27" },
+                        { text: "And the Lord God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living being.", ref: "Genesis 2:7" }
+                    ],
+                    conclusion: `<p>You are not an accident. You were specifically and beautifully designed by the Creator of the universe to reflect His glory and enjoy a relationship with Him forever.</p>`
+                },
+                te: {
+                    title: "71. మానవ సృష్టి",
+                    summary: "దేవుని స్వరూపంలో (Imago Dei) ఉద్దేశపూర్వకంగా సృష్టించబడిన సృష్టిలో అత్యుత్తమమైనది.",
+                    explanation: `<p>మానవ సృష్టి గురించిన బైబిల్ సిద్ధాంతం లౌకిక తత్వశాస్త్రానికి పూర్తిగా భిన్నంగా ఉంటుంది. ఆధునిక లౌకిక వాదం ప్రకారం, మనుషులు కేవలం పరిణామం చెందిన జంతువులు—అర్థం లేని విశ్వంలో యాదృచ్చికంగా జరిగిన రసాయన ప్రక్రియల ఫలితం మాత్రమే. ఇది నిజమైతే, మానవ జీవితానికి ఎటువంటి నిర్దిష్టమైన విలువ లేదా అంతిమ ఉద్దేశ్యం ఉండదు.</p>
+                    <p>కానీ బైబిల్ దైవశాస్త్రం ఎంతో ఉన్నతమైన సత్యాన్ని బోధిస్తోంది. దేవుడు నక్షత్రాలను, సముద్రాలను, జంతువులను మాట ద్వారా సృష్టించిన తర్వాత ఆగాడు. మానవుని సృష్టి అత్యంత ఉద్దేశపూర్వకంగా, ప్రత్యేకంగా జరిగింది. దేవుడు నేల మట్టితో నరుని శరీరాన్ని నిర్మించాడు (ఇది సృష్టితో మనకున్న భౌతిక సంబంధాన్ని, మన బలహీనతను చూపుతుంది), ఆ తర్వాత అతని నాసికారంధ్రములలో జీవవాయువును ఊదాడు (ఇది సృష్టికర్తతో మనకున్న ఆధ్యాత్మిక బంధాన్ని చూపుతుంది). కాబట్టి మనం భౌతిక మరియు ఆధ్యాత్మిక జీవులం.</p>
+                    <p>అన్నిటికంటే ముఖ్యంగా, దేవుని స్వరూపంలో (Imago Dei) సృష్టించబడిన ఏకైక ప్రాణులు మనుషులు మాత్రమే. అంటే భౌతికంగా మనం దేవునిలా కనిపిస్తామని కాదు (దేవుడు ఆత్మ కాబట్టి). దీని అర్థం మనం ఆయన లక్షణాలను ప్రతిబింబిస్తాము: మనకు ఆలోచించే జ్ఞానం, భావోద్వేగాలు, నైతికత (తప్పు-ఒప్పుల విచక్షణ) మరియు భూమిని ఏలే అధికారం ఇవ్వబడ్డాయి. ప్రతి మనిషిపై ఈ దైవిక ముద్ర ఉంది కాబట్టి, వయస్సు, జాతి లేదా సామర్థ్యంతో సంబంధం లేకుండా ప్రతి మానవ ప్రాణానికి ఎంతో విలువ మరియు గౌరవం ఉంది.</p>`,
+                    verses: [
+                        { text: "దేవుడు తన స్వరూపమందు నరుని సృజించెను; దేవుని స్వరూపమందు వాని సృజించెను; స్త్రీనిగాను పురుషునిగాను వారిని సృజించెను.", ref: "ఆదికాండము 1:27" },
+                        { text: "దేవుడైన యెహోవా నేలమట్టితో నరుని నిర్మించి వాని నాసికారంధ్రములలో జీవవాయువును ఊదగా నరుడు జీవాత్మ ఆయెను.", ref: "ఆదికాండము 2:7" }
+                    ],
+                    conclusion: `<p>మీరు యాదృచ్చికంగా పుట్టినవారు కాదు. దేవుని మహిమను ప్రతిబింబించడానికి మరియు ఆయనతో శాశ్వత సంబంధాన్ని ఆస్వాదించడానికి విశ్వ సృష్టికర్త చేత మీరు అందంగా రూపొందించబడ్డారు.</p>`
+                }
+            },
+            {
+                id: "89-origin-of-sin", category: "Hamartiology",
+                en: {
+                    title: "89. The Origin and Fall of Man",
+                    summary: "Understanding how pure evil entered a perfect creation and shattered the world.",
+                    explanation: `<p>If God is perfectly good and created a perfect world, how did sin and suffering enter the picture? Theology addresses this deeply through the Doctrine of the Fall. Sin did not originate with humanity; it originated in the angelic realm with the prideful rebellion of Lucifer (Satan), who sought to usurp God's throne.</p>
+                    <p>When God created Adam and Eve, He placed them in a perfect environment (Eden) and gave them <em>free will</em>. True love and authentic worship require a choice; forced love is programming, not love. To give them a real choice, God placed the Tree of the Knowledge of Good and Evil in the garden with a clear prohibition: eating from it would result in death. Satan, appearing as a serpent, did not attack them with physical force; he attacked them with bad theology. He questioned God's goodness ("Did God really say?") and appealed to human pride ("You will be like God").</p>
+                    <p>When Adam willingly rebelled, he acted as the "federal head" (representative) for all humanity. His treason fractured the universe. The immediate results were devastating: spiritual death (alienation from God), psychological shame, relational strife between men and women, physical decay, and a curse upon nature itself. The entire cosmos was broken by one act of cosmic treason.</p>`,
+                    verses: [
+                        { text: "Therefore, just as through one man sin entered the world, and death through sin, and thus death spread to all men, because all sinned—", ref: "Romans 5:12" },
+                        { text: "For the creation was subjected to futility, not willingly, but because of Him who subjected it in hope;", ref: "Romans 8:20" }
+                    ],
+                    conclusion: `<p>The Doctrine of the Fall explains why our world is filled with pain, disease, and injustice. We live in a beautiful but severely broken world, desperately crying out for a Savior to restore it.</p>`
+                },
+                te: {
+                    title: "89. పాపం యొక్క మూలం మరియు పతనం",
+                    summary: "పరిపూర్ణమైన సృష్టిలోకి పాపం ఎలా ప్రవేశించిందో మరియు ప్రపంచాన్ని ఎలా నాశనం చేసిందో అర్థం చేసుకోవడం.",
+                    explanation: `<p>దేవుడు సంపూర్ణంగా మంచివాడైతే మరియు పరిపూర్ణమైన లోకాన్ని సృష్టిస్తే, పాపం మరియు బాధలు ఎలా వచ్చాయి? పతనం (Fall of Man) అనే సిద్ధాంతం ద్వారా దైవశాస్త్రం దీనిని వివరిస్తుంది. పాపం మొదట మనుషులతో ప్రారంభం కాలేదు; అది దేవదూతల లోకంలో, దేవుని సింహాసనాన్ని ఆక్రమించాలని గర్వంతో తిరుగుబాటు చేసిన లూసిఫర్ (సాతాను) ద్వారా ఉద్భవించింది.</p>
+                    <p>దేవుడు ఆదాము, హవ్వలను సృష్టించినప్పుడు, వారిని ఒక పరిపూర్ణ వాతావరణంలో (ఏదెను వనంలో) ఉంచి వారికి <em>స్వేచ్ఛా చిత్తాన్ని (Free Will)</em> ఇచ్చాడు. నిజమైన ప్రేమకు ఎంచుకునే స్వేచ్ఛ ఉండాలి; బలవంతపు ప్రేమ ప్రేమ కాదు, అది రోబోట్ లాంటిది. వారికి ఆ స్వేచ్ఛ ఇవ్వడానికే, మంచి చెడ్డల తెలివినిచ్చు వృక్షాన్ని అక్కడ ఉంచి, దాని ఫలాలు తింటే మరణిస్తారు అని హెచ్చరించాడు. సాతాను సర్పం రూపంలో వచ్చి వారిపై భౌతికంగా దాడి చేయలేదు; వక్రమైన దైవశాస్త్రంతో దాడి చేశాడు. దేవుని మంచితనాన్ని ప్రశ్నించాడు ("దేవుడు నిజంగా చెప్పాడా?") మరియు మనిషి గర్వాన్ని రెచ్చగొట్టాడు ("మీరు దేవునిలా అవుతారు").</p>
+                    <p>ఆదాము ఉద్దేశపూర్వకంగా తిరుగుబాటు చేసినప్పుడు, అతను మొత్తం మానవాళికి ప్రతినిధిగా వ్యవహరించాడు. అతని ద్రోహం విశ్వాన్ని విచ్ఛిన్నం చేసింది. దాని తక్షణ ఫలితాలు భయంకరమైనవి: ఆధ్యాత్మిక మరణం (దేవుని నుండి దూరం కావడం), మానసిక అవమానం, స్త్రీ పురుషుల మధ్య ఘర్షణ, శారీరక క్షీణత మరియు ప్రకృతి శపించబడటం. ఒకే ఒక్క ద్రోహం వల్ల మొత్తం సృష్టి దెబ్బతింది.</p>`,
+                    verses: [
+                        { text: "ఇట్లుండగా ఒక మనుష్యునిద్వారా పాపమును పాపము ద్వారా మరణమును లోకములో ఏలాగు ప్రవేశించెనో, ఆలాగుననే మనుష్యులందరు పాపము చేసినందున మరణము అందరికిని సంప్రాప్తమాయెను.", ref: "రోమీయులకు 5:12" },
+                        { text: "సృష్టి, స్వేచ్ఛగా కాక, నిరీక్షణకలదై, దానిని లోపరచినవాని మూలముగా వ్యర్థత్వమునకు లోపరచబడెను.", ref: "రోమీయులకు 8:20" }
+                    ],
+                    conclusion: `<p>మన ప్రపంచంలో ఇన్ని బాధలు, రోగాలు, అన్యాయాలు ఎందుకు ఉన్నాయో ఈ సిద్ధాంతం వివరిస్తుంది. మనం అందమైన, కానీ తీవ్రంగా విరిగిపోయిన ప్రపంచంలో జీవిస్తున్నాము, దానిని బాగు చేయడానికి ఒక రక్షకుడు ఎంతో అవసరం.</p>`
+                }
+            },
+            {
+                id: "107-meaning-of-salvation", category: "Soteriology",
+                en: {
+                    title: "107. The Meaning of Salvation",
+                    summary: "The comprehensive rescue of humanity from the penalty, power, and presence of sin.",
+                    explanation: `<p>Soteriology is the study of salvation, arguably the most important subject for human destiny. Salvation (from the Greek <em>soteria</em>) is far more comprehensive than simply "going to heaven when you die." It is God's grand, cosmic rescue mission to completely redeem humanity and restore the broken creation to its original glory.</p>
+                    <p>Theologically, salvation operates in three distinct tenses: Past, Present, and Future.</p>
+                    <p><strong>Past (Justification):</strong> The moment a person repents and trusts in Christ, they <em>have been saved</em> from the penalty of sin. God the Judge declares them legally righteous because Christ's perfection is credited to their account. This is a one-time, finished event.</p>
+                    <p><strong>Present (Sanctification):</strong> Believers <em>are being saved</em> from the power of sin in their daily lives. Through the Holy Spirit, Christians are progressively transformed to hate sin, love God, and look more like Jesus character-wise. This is a lifelong struggle and process.</p>
+                    <p><strong>Future (Glorification):</strong> Believers <em>will be saved</em> from the very presence of sin. When Christ returns, we will receive perfect, immortal bodies and live in a flawless New Earth, entirely free from temptation, disease, and death.</p>`,
+                    verses: [
+                        { text: "For the grace of God that brings salvation has appeared to all men, teaching us that, denying ungodliness and worldly lusts, we should live soberly, righteously, and godly in the present age,", ref: "Titus 2:11-12" },
+                        { text: "For by grace you have been saved through faith, and that not of yourselves; it is the gift of God, not of works, lest anyone should boast.", ref: "Ephesians 2:8-9" }
+                    ],
+                    conclusion: `<p>Salvation is an absolute masterpiece of God's grace. It cannot be earned by human effort; it can only be received with the empty hands of faith.</p>`
+                },
+                te: {
+                    title: "107. రక్షణ అంటే ఏమిటి?",
+                    summary: "పాపం యొక్క శిక్ష, శక్తి మరియు ఉనికి నుండి మానవాళిని పూర్తిగా రక్షించే దేవుని ప్రణాళిక.",
+                    explanation: `<p>సోటీరియాలజీ (Soteriology) అంటే రక్షణ గురించిన అధ్యయనం, ఇది మానవ గమ్యానికి అత్యంత ముఖ్యమైన అంశం. రక్షణ అంటే కేవలం "చనిపోయాక పరలోకానికి వెళ్లడం" మాత్రమే కాదు. ఇది మానవాళిని పూర్తిగా విడిపించి, విరిగిపోయిన సృష్టిని దాని అసలు మహిమకు పునరుద్ధరించడానికి దేవుడు చేపట్టిన గొప్ప రక్షణ మిషన్.</p>
+                    <p>దైవశాస్త్ర పరంగా, రక్షణ అనేది మూడు దశల్లో (గతం, వర్తమానం, భవిష్యత్తు) పనిచేస్తుంది.</p>
+                    <p><strong>గతం (నీతిమంతులుగా తీర్చబడటం - Justification):</strong> ఒక వ్యక్తి మారుమనస్సు పొంది క్రీస్తుపై విశ్వాసం ఉంచిన క్షణంలో, వారు పాపం యొక్క శిక్ష నుండి <em>రక్షించబడ్డారు</em>. క్రీస్తు యొక్క పవిత్రత వారి ఖాతాలో జమ చేయబడుతుంది కాబట్టి, న్యాయాధిపతి అయిన దేవుడు వారిని చట్టబద్ధంగా నీతిమంతులుగా ప్రకటిస్తాడు. ఇది ఒక్కసారే జరిగే, పూర్తయిన ప్రక్రియ.</p>
+                    <p><strong>వర్తమానం (పరిశుద్ధపరచబడటం - Sanctification):</strong> విశ్వాసులు తమ దైనందిన జీవితంలో పాపం యొక్క శక్తి నుండి <em>రక్షించబడుతున్నారు</em>. పరిశుద్ధాత్మ ద్వారా, క్రైస్తవులు పాపాన్ని ద్వేషించేలా, దేవుణ్ణి ప్రేమించేలా మరియు యేసు స్వభావాన్ని పోలి ఉండేలా క్రమంగా మార్చబడతారు. ఇది జీవితకాలం జరిగే ఒక ప్రక్రియ.</p>
+                    <p><strong>భవిష్యత్తు (మహిమపరచబడటం - Glorification):</strong> విశ్వాసులు పాపం యొక్క ఉనికి నుండే శాశ్వతంగా <em>రక్షించబడతారు</em>. క్రీస్తు తిరిగి వచ్చినప్పుడు, మనం పరిపూర్ణమైన, అమర్త్యమైన శరీరాలను పొందుతాము మరియు శోధనలు, రోగాలు, మరణం లేని కొత్త భూమిపై జీవిస్తాము.</p>`,
+                    verses: [
+                        { text: "ఏలయనగా సమస్త మనుష్యులకు రక్షణకరమైన దేవుని కృప ప్రత్యక్షమై... మనము భక్తిహీనతను, ఇహలోక సంబంధమైన దురాశలను విసర్జించి, స్వస్థబుద్ధితోను నీతితోను భక్తితోను బ్రదుకుచు...", ref: "తీతుకు 2:11-12" },
+                        { text: "మీరు విశ్వాసముద్వారా కృపచేతనే రక్షింపబడియున్నారు; ఇది మీవలన కలిగినది కాదు, దేవుని వరమే. అది క్రియలవలన కలిగినదికాదు గనుక ఎవడును అతిశయపడ వీలులేదు.", ref: "ఎఫెసీయులకు 2:8-9" }
+                    ],
+                    conclusion: `<p>రక్షణ అనేది దేవుని కృప యొక్క అద్భుతమైన కళాఖండం. మనుషుల ప్రయత్నాల ద్వారా దీనిని సంపాదించలేము; కేవలం విశ్వాసం అనే ఖాళీ చేతులతో మాత్రమే దీనిని స్వీకరించగలం.</p>`
+                }
+            },
+            {
+                id: "132-what-is-church", category: "Ecclesiology",
+                en: {
+                    title: "132. What is the Church?",
+                    summary: "The beautiful Bride of Christ: God's gathered people across the globe.",
+                    explanation: `<p>When people hear the word "church," they typically think of a building with a steeple or a weekly religious meeting. However, Ecclesiology (the study of the church) corrects this profound misunderstanding. The biblical word for church is <em>Ekklesia</em>, which literally means "the called-out ones." The church is not a place you go; it is a people you belong to. It is the living, breathing Body of Christ on earth.</p>
+                    <p>Theology distinguishes between two aspects of the church:</p>
+                    <p><strong>1. The Universal Church:</strong> This consists of every single true believer in Jesus Christ, across all denominations, across all nations, and across all of human history since Pentecost. God alone knows the exact membership of this invisible, global body.</p>
+                    <p><strong>2. The Local Church:</strong> This is a specific, visible gathering of believers in a geographic location (like the church in Corinth, or a church in your city). The New Testament knows absolutely nothing of a "lone-ranger" Christian. We are commanded to gather locally to sit under the preaching of the Word, participate in the ordinances (Baptism and Communion), hold each other accountable through church discipline, and pool our spiritual gifts to serve the community.</p>`,
+                    verses: [
+                        { text: "And let us consider one another in order to stir up love and good works, not forsaking the assembling of ourselves together, as is the manner of some...", ref: "Hebrews 10:24-25" },
+                        { text: "Now you are the body of Christ, and members individually.", ref: "1 Corinthians 12:27" }
+                    ],
+                    conclusion: `<p>The local church is deeply flawed because it is full of recovering sinners. Yet, it is the beautiful Bride of Christ. You cannot truly claim to love Jesus while rejecting His Bride.</p>`
+                },
+                te: {
+                    title: "132. సంఘం (చర్చి) అంటే ఏమిటి?",
+                    summary: "క్రీస్తు యొక్క అందమైన పెండ్లికుమార్తె: ప్రపంచవ్యాప్తంగా పిలువబడిన దేవుని ప్రజలు.",
+                    explanation: `<p>ప్రజలు "చర్చి" అనే పదాన్ని విన్నప్పుడు, సాధారణంగా శిలువ ఉన్న భవనం లేదా వారానికొకసారి జరిగే మతపరమైన కూడిక గురించి ఆలోచిస్తారు. కానీ ఎక్లీసియాలజీ (సంఘం గురించిన అధ్యయనం) ఈ అపార్థాన్ని సరిదిద్దుతుంది. బైబిల్ లో సంఘానికి వాడిన పదం <em>ఎక్లీసియా (Ekklesia)</em>, అంటే "బయటకు పిలువబడిన వారు" అని అర్థం. చర్చి అంటే మీరు వెళ్ళే స్థలం కాదు; మీరు ఏ కుటుంబానికి చెందుతారో ఆ దేవుని ప్రజలు. ఇది భూమిపై ఉన్న క్రీస్తు యొక్క సజీవ శరీరము.</p>
+                    <p>దైవశాస్త్రం సంఘంలో రెండు కోణాలను గుర్తిస్తుంది:</p>
+                    <p><strong>1. సార్వత్రిక సంఘం (Universal Church):</strong> పెంతెకొస్తు దినం మొదలుకొని, అన్ని దేశాలు, అన్ని కాలాలు మరియు అన్ని డినామినేషన్లలో యేసుక్రీస్తును నిజంగా నమ్మిన ప్రతి విశ్వాసి ఈ సార్వత్రిక సంఘంలో భాగమే. కంటికి కనిపించని ఈ గ్లోబల్ బాడీలో ఎవరెవరున్నారో దేవునికి మాత్రమే పూర్తిగా తెలుసు.</p>
+                    <p><strong>2. స్థానిక సంఘం (Local Church):</strong> ఇది ఒక నిర్దిష్ట భౌగోళిక ప్రదేశంలో విశ్వాసులు కనిపించేలా సమావేశమవడం (ఉదాహరణకు కోరింథులోని సంఘం, లేదా మీ ఊరిలోని సంఘం). ఒంటరిగా జీవించే క్రైస్తవుని గురించి క్రొత్త నిబంధనలో ఎక్కడా లేదు. దేవుని వాక్యాన్ని వినడానికి, బాప్తిస్మం మరియు ప్రభువు రాత్రి భోజనంలో పాలుపంచుకోవడానికి, ఒకరికొకరు సహాయం చేసుకోవడానికి మరియు సమాజానికి సేవ చేయడానికి స్థానికంగా కలుసుకోవాలని దేవుడు ఆజ్ఞాపించాడు.</p>`,
+                    verses: [
+                        { text: "కొందరు మానుకొనుచున్నట్టుగా, సమాజముగా కూడుట మానక, ఒకనినొకడు హెచ్చరించుచు, ఆ దినము సమీపించుట మీరు చూచినకొలది మరి యెక్కువగా ఆలాగు చేయుచు, ప్రేమ చూపుటకును సత్కార్యములు చేయుటకును ఒకనినొకడు పురికొల్పవలెనని ఆలోచింతము.", ref: "హెబ్రీయులకు 10:24-25" },
+                        { text: "మీరు క్రీస్తు శరీరమైయుండి, విడివిడిగా అవయవములై యున్నారు.", ref: "1 కొరింథీయులకు 12:27" }
+                    ],
+                    conclusion: `<p>స్థానిక సంఘంలో తప్పులు చేసే మనుషులు ఉంటారు కాబట్టి అది లోపభూయిష్టంగా అనిపించవచ్చు. అయినా అది క్రీస్తు ప్రేమించిన ఆయన పెండ్లికుమార్తె. క్రీస్తు పెండ్లికుమార్తెను ద్వేషిస్తూ, క్రీస్తును ప్రేమిస్తున్నానని మీరు చెప్పలేరు.</p>`
+                }
+            },
+            {
+                id: "156-second-coming", category: "Eschatology",
+                en: {
+                    title: "156. The Second Coming of Christ",
+                    summary: "The magnificent, victorious return of the King to judge and restore the earth.",
+                    explanation: `<p>Eschatology is the theology of the End Times. The absolute climax of human history is the guaranteed, physical, and visible return of Jesus Christ to earth, known as the <em>Parousia</em> (Second Coming). While Christians often debate the exact timeline of events like the Rapture, the Tribulation, and the Millennium, orthodox believers are entirely united on the certainty of Christ's victorious return.</p>
+                    <p>When Jesus first came to earth over 2,000 years ago, He came in profound humility. He was born in a dirty manger, rode a borrowed donkey, and was humiliated and crucified naked on a Roman cross to bear the wrath of God for our sins. He came as a suffering servant to save the world.</p>
+                    <p>However, when He returns, it will be radically different. He is not coming back to bear sin; He is coming back to wage war against evil, enact absolute justice, and establish His eternal Kingdom. Revelation describes Him splitting the skies, riding a white horse, with eyes like fire, followed by the armies of heaven. Every eye will see Him. He will resurrect the dead, judge the nations, permanently banish Satan, and inaugurate the New Heavens and New Earth where righteousness dwells.</p>`,
+                    verses: [
+                        { text: "Behold, He is coming with clouds, and every eye will see Him, even they who pierced Him. And all the tribes of the earth will mourn because of Him. Even so, Amen.", ref: "Revelation 1:7" },
+                        { text: "For the Lord Himself will descend from heaven with a shout, with the voice of an archangel, and with the trumpet of God. And the dead in Christ will rise first.", ref: "1 Thessalonians 4:16" }
+                    ],
+                    conclusion: `<p>The Second Coming is the ultimate hope of the Church. It is the guarantee that evil will not win. Believers are commanded to live holy lives in eager, watchful anticipation of their returning King.</p>`
+                },
+                te: {
+                    title: "156. క్రీస్తు రెండవ రాకడ",
+                    summary: "భూమిపై తీర్పు తీర్చడానికి మరియు పునరుద్ధరించడానికి రాజు యొక్క అద్భుతమైన, విజయవంతమైన రాకడ.",
+                    explanation: `<p>ఎస్కాటాలజీ (Eschatology) అంటే అంత్య దినాల గురించిన దైవశాస్త్రం. మానవ చరిత్రకు ముగింపు మరియు అత్యున్నత ఘట్టం ఏమిటంటే—యేసుక్రీస్తు ఖచ్చితంగా, భౌతికంగా, అందరికీ కనిపించేలా భూమిపైకి తిరిగి రావడం. శ్రమల కాలం, వెయ్యేండ్ల పరిపాలన గురించి క్రైస్తవుల మధ్య వేర్వేరు అభిప్రాయాలు ఉన్నప్పటికీ, క్రీస్తు ఖచ్చితంగా విజయుడిగా తిరిగి వస్తాడనే విషయంలో ప్రతి నిజమైన క్రైస్తవుడు ఏకీభవిస్తాడు.</p>
+                    <p>2,000 సంవత్సరాల క్రితం యేసు మొదటిసారి భూమిపైకి వచ్చినప్పుడు, ఆయన ఎంతో దీనత్వంతో వచ్చాడు. ఆయన పశువుల తొట్టిలో జన్మించాడు, అరువు తెచ్చుకున్న గాడిదపై ప్రయాణించాడు, మన పాపాల కోసం దేవుని ఉగ్రతను భరిస్తూ రోమా సిలువపై నగ్నంగా, అవమానకరంగా చనిపోయాడు. ఆయన లోకాన్ని రక్షించడానికి శ్రమపడే సేవకుడిగా వచ్చాడు.</p>
+                    <p>కానీ, ఆయన రెండవసారి తిరిగి వచ్చినప్పుడు పరిస్థితులు పూర్తిగా భిన్నంగా ఉంటాయి. ఆయన పాపాలను భరించడానికి రావడం లేదు; కీడుపై యుద్ధం చేయడానికి, సంపూర్ణ న్యాయం తీర్చడానికి మరియు తన శాశ్వతమైన రాజ్యాన్ని స్థాపించడానికి వస్తున్నాడు. ఆయన ఆకాశాన్ని చీల్చుకుని, అగ్ని జ్వాలల్లాంటి కళ్ళతో, తెల్లని గుర్రంపై వస్తాడని, పరలోక సైన్యాలు ఆయనను వెంబడిస్తాయని ప్రకటన గ్రంథం వివరిస్తుంది. ప్రతి కన్ను ఆయనను చూస్తుంది. ఆయన మృతులను లేపుతాడు, దేశాలకు తీర్పు తీరుస్తాడు, సాతానును శాశ్వతంగా బంధిస్తాడు, మరియు నీతి నివసించే కొత్త ఆకాశాన్ని, కొత్త భూమిని స్థాపిస్తాడు.</p>`,
+                    verses: [
+                        { text: "ఇదిగో ఆయన మేఘారూఢుడై వచ్చుచున్నాడు; ప్రతి నేత్రము ఆయనను చూచును, ఆయనను పొడిచినవారును చూతురు, భూజనులందరు ఆయనను చూచి రొమ్ము కొట్టుకొందురు; అవును ఆమేన్‌.", ref: "ప్రకటన గ్రంథము 1:7" },
+                        { text: "ఆర్భాటముతోను, ప్రధానదూత శబ్దముతోను, దేవుని బూరతోను పరలోకమునుండి ప్రభువు దిగివచ్చును; క్రీస్తునందుండి మృతులైన వారు మొదట లేతురు.", ref: "1 థెస్సలొనీకయులకు 4:16" }
+                    ],
+                    conclusion: `<p>రెండవ రాకడ అనేది సంఘానికి ఉన్న అత్యున్నత నిరీక్షణ. కీడు ఎప్పటికీ గెలవదు అనడానికి ఇదే గ్యారెంటీ. తిరిగి వస్తున్న రాజు కోసం ఎదురుచూస్తూ పవిత్రమైన జీవితాలు జీవించాలని విశ్వాసులకు ఆజ్ఞాపించబడింది.</p>`
+                }
+            },
+            {
+                id: "174-reliability-of-bible", category: "Apologetics",
+                en: {
+                    title: "174. The Reliability of the Bible",
+                    summary: "Historical, manuscript, and prophetic evidence defending the trustworthines of Scripture.",
+                    explanation: `<p>A common skeptic's objection is that the Bible has been copied and translated so many times over thousands of years like a game of "telephone," that the original message is corrupted or lost. Christian Apologetics rigorously defends the reliability of Scripture using historical, archaeological, and textual evidence, proving it is the most well-preserved ancient document in human history.</p>
+                    <p>In textual criticism (the science of comparing ancient manuscripts to determine the original text), the New Testament is entirely unparalleled. We possess over 5,800 Greek manuscripts, some dating within decades of the original writings. By comparison, Homer’s <em>Iliad</em> (the second most well-preserved ancient text) has fewer than 2,000 manuscripts with a 500-year gap. The sheer volume of biblical manuscripts allows scholars to cross-check and prove that the text we read today is 99.5% pure to the original—with the remaining 0.5% being minor spelling or grammatical differences that do not alter a single core doctrine.</p>
+                    <p>Furthermore, archaeological discoveries consistently verify the names, cities, and political structures mentioned in the Bible. Finally, the fulfillment of highly specific Old Testament prophecies regarding the rise and fall of empires, and the precise details of Jesus Christ's crucifixion centuries before it was invented, prove a divine Author stands behind the human writers.</p>`,
+                    verses: [
+                        { text: "The grass withers, the flower fades, But the word of our God stands forever.", ref: "Isaiah 40:8" },
+                        { text: "Sanctify them by Your truth. Your word is truth.", ref: "John 17:17" }
+                    ],
+                    conclusion: `<p>Your faith is not blind. It is anchored in an historically verifiable, miraculously preserved, and divinely inspired text. You can trust the Bible completely.</p>`
+                },
+                te: {
+                    title: "174. బైబిల్ విశ్వసనీయత (నమ్మదగినదా?)",
+                    summary: "లేఖనాల యొక్క సత్యత్వాన్ని రక్షించే చారిత్రక, మాన్యుస్క్రిప్ట్ మరియు ప్రవచన ఆధారాలు.",
+                    explanation: `<p>వేల సంవత్సరాలుగా బైబిల్ అనేకసార్లు కాపీ చేయబడి, అనువదించబడటం వల్ల అసలు సందేశం పాడైపోయిందని లేదా కనుమరుగైపోయిందని చాలామంది విమర్శకులు వాదిస్తుంటారు. అయితే, క్రైస్తవ అపోలొజెటిక్స్ (Apologetics - సత్య సమర్థన) చారిత్రక, పురావస్తు మరియు టెక్స్చువల్ ఆధారాలను ఉపయోగించి బైబిల్ యొక్క విశ్వసనీయతను గట్టిగా రక్షిస్తుంది. మానవ చరిత్రలోనే అత్యంత సురక్షితంగా భద్రపరచబడిన పురాతన పత్రం బైబిల్ అని నిరూపిస్తుంది.</p>
+                    <p>టెక్స్చువల్ క్రిటిసిజం (అసలు వచనాన్ని నిర్ణయించడానికి పురాతన మాన్యుస్క్రిప్ట్‌లను పోల్చే శాస్త్రం) లో, క్రొత్త నిబంధనకు సాటిలేదు. మన దగ్గర 5,800 కు పైగా గ్రీకు మాన్యుస్క్రిప్ట్‌లు (పాత ప్రతులు) ఉన్నాయి. వాటిలో కొన్ని అసలు గ్రంథాలు రాయబడిన కొద్ది దశాబ్దాలకే చెందినవి. పోల్చి చూస్తే, హోమర్ రాసిన 'ఇలియడ్' (రెండవ అత్యుత్తమ పురాతన గ్రంథం) కు కేవలం 2,000 కన్నా తక్కువ ప్రతులు మాత్రమే ఉన్నాయి, అదీ 500 సంవత్సరాల గ్యాప్ తో. బైబిల్ కు ఉన్న ఇన్ని వేల ప్రతులను సరిపోల్చడం ద్వారా, నేడు మనం చదువుతున్న బైబిల్ 99.5% అసలైనదని పండితులు నిరూపించారు. మిగిలిన 0.5% చిన్న స్పెల్లింగ్ లేదా వ్యాకరణ తేడాలు మాత్రమే, ఇవి ఏ ఒక్క ముఖ్య సిద్ధాంతాన్ని మార్చవు.</p>
+                    <p>అంతేకాకుండా, బైబిల్ లో పేర్కొన్న పేర్లు, నగరాలు మరియు రాజకీయ నిర్మాణాలను పురావస్తు త్రవ్వకాలు స్థిరంగా ధృవీకరిాని దేవుని మంచితనాన్ని ప్రశ్నించాడు ("దేవుడు నిజంగా చెప్పాడా?") మరియు మనిషి గర్వాన్ని రెచ్చగొట్టాడు ("మీరు దేవునిలా అవుతారు").</p>
+                    <p>ఆదాము ఉద్దేశపూర్వకంగా తిరుగుబాటు చేసినప్పుడు, అతను మొత్తం మానవాళికి ప్రతినిధిగా వ్యవహరించాడు. అతని ద్రోహం విశ్వాన్ని విచ్ఛిన్నం చేసింది. దాని తక్షణ ఫలితాలు భయంకరమైనవి: ఆధ్యాత్మిక మరణం (దేవుని నుండి దూరం కావడం), మానసిక అవమానం, స్త్రీ పురుషుల మధ్య ఘర్షణ, శారీరక క్షీణత మరియు ప్రకృతి శపించబడటం. ఒకే ఒక్క ద్రోహం వల్ల మొత్తం సృష్టి దెబ్బతింది.</p>`,
+                    verses: [
+                        { text: "ఇట్లుండగా ఒక మనుష్యునిద్వారా పాపమును పాపము ద్వారా మరణమును లోకములో ఏలాగు ప్రవేశించెనో, ఆలాగుననే మనుష్యులందరు పాపము చేసినందున మరణము అందరికిని సంప్రాప్తమాయెను.", ref: "రోమీయులకు 5:12" },
+                        { text: "సృష్టి, స్వేచ్ఛగా కాక, నిరీక్షణకలదై, దానిని లోపరచినవాని మూలముగా వ్యర్థత్వమునకు లోపరచబడెను.", ref: "రోమీయులకు 8:20" }
+                    ],
+                    conclusion: `<p>మన ప్రపంచంలో ఇన్ని బాధలు, రోగాలు, అన్యాయాలు ఎందుకు ఉన్నాయో ఈ సిద్ధాంతం వివరిస్తుంది. మనం అందమైన, కానీ తీవ్రంగా విరిగిపోయిన ప్రపంచంలో జీవిస్తున్నాము, దానిని బాగు చేయడానికి ఒక రక్షకుడు ఎంతో అవసరం.</p>`
+                }
+            },
+            {
+                id: "181-theology-of-prayer", category: "Practical Theology",
+                en: {
+                    title: "181. The Theology of Prayer",
+                    summary: "Aligning our hearts with God's sovereign will through communion with the Creator.",
+                    explanation: `<p>Practical Theology takes the high concepts of doctrine and applies them to the daily grit of the Christian life. Foremost among these is the theology of prayer. A common theological question arises: "If God is omniscient (knows everything) and sovereign (has already planned the future), why should we pray at all?"</p>
+                    <p>The answer is twofold. First, prayer is fundamentally about relationship, not requisition. God desires intimate communion with His children. Second, while God ordains the <em>ends</em> (what will happen), He also ordains the <em>means</em> (how it will happen). The sovereign God has mysteriously chosen to weave the prayers of His people into the execution of His divine will on earth. Your prayers actually matter; they are the instruments God uses to enact His plans.</p>
+                    <p>Theologically, true prayer is Trinitarian: We pray <em>to</em> the Father, <em>through</em> the authority and mediation of the Son (Jesus), empowered <em>by</em> the Holy Spirit (who intercedes for us when we don't know what to say). Biblical prayer is not a magic formula to bend God's will to our desires; it is the holy discipline of bending our rebellious wills to perfectly align with His.</p>`,
+                    verses: [
+                        { text: "Now this is the confidence that we have in Him, that if we ask anything according to His will, He hears us.", ref: "1 John 5:14" },
+                        { text: "Likewise the Spirit also helps in our weaknesses. For we do not know what we should pray for as we ought, but the Spirit Himself makes intercession for us...", ref: "Romans 8:26" }
+                    ],
+                    conclusion: `<p>Prayer is the breath of the spiritual life. It is trading our anxiety for God's peace, and declaring our absolute dependence on the King of the universe.</p>`
+                },
+                te: {
+                    title: "181. ప్రార్థన గురించిన దైవశాస్త్రం",
+                    summary: "సృష్టికర్తతో సహవాసం చేయడం ద్వారా మన హృదయాలను దేవుని చిత్తానికి అనుగుణంగా మార్చుకోవడం.",
+                    explanation: `<p>ప్రాక్టికల్ థియాలజీ అనేది ఉన్నతమైన దైవశాస్త్ర సిద్ధాంతాలను క్రైస్తవుని రోజువారీ జీవితానికి అన్వయిస్తుంది. వీటిలో ప్రార్థన గురించిన దైవశాస్త్రం అత్యంత ముఖ్యమైనది. ఇక్కడ ఒక సాధారణ దైవశాస్త్ర ప్రశ్న తలెత్తుతుంది: "దేవుడు సర్వజ్ఞాని (అన్నీ తెలిసినవాడు) మరియు సార్వభౌమాధికారి (భవిష్యత్తును ఇప్పటికే ప్లాన్ చేసినవాడు) అయితే, మనం అసలు ఎందుకు ప్రార్థన చేయాలి?"</p>
+                    <p>దీనికి సమాధానం రెండు విధాలుగా ఉంటుంది. మొదటిది, ప్రార్థన అంటే దేవుని దగ్గర లిస్టు పెట్టి అడగడం కాదు, అది దేవునితో సంబంధం కలిగి ఉండటం. దేవుడు తన పిల్లలతో సన్నిహిత సహవాసాన్ని కోరుకుంటాడు. రెండవది, దేవుడు <em>ఏమి జరగాలో</em> ముందే నిర్ణయించినట్లే, అది <em>ఎలా జరగాలో</em> (దాని సాధనాలను) కూడా నిర్ణయిస్తాడు. సార్వభౌముడైన దేవుడు ఈ భూమిపై తన చిత్తాన్ని నెరవేర్చడానికి తన ప్రజల ప్రార్థనలను ఒక సాధనంగా ఉపయోగించుకోవాలని నిర్ణయించుకున్నాడు. కాబట్టి మీ ప్రార్థనలకు ఎంతో విలువ ఉంది.</p>
+                    <p>దైవశాస్త్ర పరంగా, నిజమైన ప్రార్థన త్రిత్వంతో ముడిపడి ఉంది: మనం తండ్రికి ప్రార్థిస్తాము, కుమారుని (యేసు) అధికారం ద్వారా ప్రార్థిస్తాము, మరియు పరిశుద్ధాత్మ శక్తితో (మనం ఏమని ప్రార్థించాలో తెలియనప్పుడు ఆయన మన పక్షాన విజ్ఞాపన చేస్తాడు) ప్రార్థిస్తాము. దేవుని చిత్తాన్ని మన కోరికలకు అనుగుణంగా వంచుకోవడానికి ప్రార్థన ఒక మ్యాజిక్ మంత్రం కాదు; మన మొండి చిత్తాన్ని ఆయన చిత్తానికి అనుగుణంగా వంచే పవిత్రమైన క్రమశిక్షణే ప్రార్థన.</p>`,
+                    verses: [
+                        { text: "ఆయననుబట్టి మనకు కలిగిన ధైర్యమేదనగా, ఆయన చిత్తానుసారముగా మనమేది అడిగినను ఆయన మన మనవి ఆలకించుననునదియే.", ref: "1 యోహాను 5:14" },
+                        { text: "అటువలె ఆత్మయు మన బలహీనతను చూచి సహాయము చేయుచున్నాడు. ఏలయనగా మనము యుక్తముగా ఏలాగు ప్రార్థన చేయవలెనో మనకు తెలియదు గాని, ఉచ్చరింప శక్యముకాని మూలుగులతో ఆ ఆత్మ తానే మనపక్షముగా విజ్ఞాపనము చేయుచున్నాడు.", ref: "రోమీయులకు 8:26" }
+                    ],
+                    conclusion: `<p>ప్రార్థన అనేది ఆధ్యాత్మిక జీవితానికి ఊపిరి లాంటిది. ఇది మన ఆందోళనలను దేవునికి ఇచ్చి ఆయన శాంతిని పొందడం, మరియు విశ్వ సృష్టికర్తపై మన సంపూర్ణ ఆధారాన్ని ప్రకటించడం.</p>`
+                }
+            }
+        ];
+
+        // Core Categories List
+        const coreCategories = [
+            "Theology Proper", "Christology", "Pneumatology", "Anthropology", 
+            "Hamartiology", "Soteriology", "Ecclesiology", "Eschatology", 
+            "Apologetics", "Practical Theology"
+        ];
+        
+        const categories = ["All", ...coreCategories];
+
+        // --- 3. STATE FOR PAGINATION & FILTERING ---
+        let currentCategory = 'All';
+        let currentSearchQuery = '';
+        let currentPage = 1;
+        const itemsPerPage = 9;
+        let filteredArticles = [];
+
+        function navigateTo(sectionId) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+            
+            if(sectionId === 'questions') {
+                updateLibraryView();
+            }
+        }
+
+        // Generate Category Pills UI
+        function renderCategoryPills() {
+            const container = document.getElementById('category-pills');
+            container.innerHTML = '';
+            
+            categories.forEach(cat => {
+                const isActive = cat === currentCategory;
+                const activeClasses = isActive 
+                    ? 'bg-primary text-white shadow-md' 
+                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary';
+                
+                container.innerHTML += `
+                    <button onclick="filterByCategory('${cat}')" class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeClasses}">
+                        ${cat}
+                    </button>
+                `;
+            });
+        }
+
+        function filterByCategory(cat) {
+            currentCategory = cat;
+            currentPage = 1;
+            renderCategoryPills();
+            updateLibraryView();
+        }
+
+        function handleHomeSearch(event) {
+            if (event.key === 'Enter') executeSearch();
+        }
+
+        function handlePageSearch(event) {
+            currentSearchQuery = event.target.value.toLowerCase();
+            currentPage = 1;
+            updateLibraryView();
+        }
+
+        function executeSearch() {
+            const query = document.getElementById('home-search').value.toLowerCase();
+            navigateTo('questions');
+            document.getElementById('page-search').value = query;
+            currentSearchQuery = query;
+            currentCategory = 'All'; 
+            renderCategoryPills();
+            updateLibraryView();
+        }
+
+        function updateLibraryView() {
+            filteredArticles = articles.filter(article => {
+                const content = article[currentLang] || article;
+                const matchCategory = currentCategory === 'All' || article.category === currentCategory;
+                const matchSearch = content.title.toLowerCase().includes(currentSearchQuery) || 
+                                    content.summary.toLowerCase().includes(currentSearchQuery);
+                return matchCategory && matchSearch;
+            });
+            
+            renderArticleList();
+            updatePaginationControls();
+        }
+
+        function renderArticleList() {
+            const container = document.getElementById('all-questions-list');
+            const noResults = document.getElementById('no-results');
+            const paginationControls = document.getElementById('pagination-controls');
+            
+            container.innerHTML = '';
+            
+            if (filteredArticles.length === 0) {
+                noResults.classList.remove('hidden');
+                container.classList.add('hidden');
+                paginationControls.classList.add('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                container.classList.remove('hidden');
+                paginationControls.classList.remove('hidden');
+                
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = filteredArticles.slice(start, end);
+                
+                const dict = uiDictionary[currentLang];
+                
+                paginatedItems.forEach(article => {
+                    const content = article[currentLang] || article; 
+                    
+                    container.innerHTML += `
+                        <div class="bg-white dark:bg-darkCard rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 dark:border-slate-800 p-6 cursor-pointer group flex flex-col h-full relative overflow-hidden" onclick="openArticle('${article.id}')">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-primary transform origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+                            
+                            <span class="text-[10px] font-extrabold text-primary dark:text-sky-400 tracking-widest uppercase mb-3 inline-block">${article.category}</span>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary dark:group-hover:text-sky-400 transition-colors">${content.title}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 flex-grow mb-6 text-sm leading-relaxed">${content.summary}</p>
+                            
+                            <span class="text-primary dark:text-sky-400 font-bold text-sm inline-flex items-center mt-auto border-t border-slate-100 dark:border-slate-800 pt-4">
+                                ${dict.readArticle} 
+                                <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </span>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function updatePaginationControls() {
+            const totalPages = Math.ceil(filteredArticles.length / itemsPerPage) || 1;
+            document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+            
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage === totalPages;
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateLibraryView();
+                window.scrollTo(0, document.getElementById('questions').offsetTop - 100);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updateLibraryView();
+                window.scrollTo(0, document.getElementById('questions').offsetTop - 100);
+            }
+        }
+
+        function openArticle(id) {
+            const article = articles.find(a => a.id === id);
+            if (!article) return;
+
+            const content = article[currentLang] || article;
+
+            document.getElementById('article-title').setAttribute('data-id', id);
+            document.getElementById('article-category').textContent = article.category;
+            document.getElementById('article-title').textContent = content.title;
+            
+            document.getElementById('article-explanation').innerHTML = content.explanation;
+            
+            const versesContainer = document.getElementById('article-verses');
+            versesContainer.innerHTML = '';
+            content.verses.forEach(verse => {
+                versesContainer.innerHTML += `
+                    <div class="mb-4 last:mb-0">
+                        <p class="italic text-slate-800 dark:text-slate-200 font-serif text-lg leading-relaxed mb-2">"${verse.text}"</p>
+                        <p class="text-right text-primary dark:text-sky-400 font-bold text-sm uppercase tracking-widest">— ${verse.ref}</p>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('article-conclusion').innerHTML = content.conclusion;
+            navigateTo('article');
+        }
+
+        function renderHomeCards() {
+            const container = document.getElementById('featured-cards');
+            container.innerHTML = '';
+            
+            const featured = articles.slice(0, 3);
+            const dict = uiDictionary[currentLang];
+            
+            featured.forEach((article, idx) => {
+                const content = article[currentLang] || article;
+                
+                container.innerHTML += `
+                    <div class="bg-white dark:bg-darkCard rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-slate-200 dark:border-slate-800 p-8 cursor-pointer group flex flex-col h-full translate-y-0 hover:-translate-y-2 relative overflow-hidden" onclick="openArticle('${article.id}')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-sky-50 dark:bg-sky-900/10 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+                        
+                        <span class="text-[10px] font-extrabold text-primary dark:text-sky-400 tracking-widest uppercase mb-4 inline-block">${article.category}</span>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 leading-tight group-hover:text-primary transition-colors">${content.title}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 flex-grow mb-8">${content.summary}</p>
+                        
+                        <span class="text-primary dark:text-sky-400 font-bold text-sm inline-flex items-center mt-auto uppercase tracking-wider bg-sky-50 dark:bg-sky-900/30 px-4 py-2 rounded-full self-start">
+                            ${dict.explore} 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </span>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = function() {
+            document.getElementById('lang-toggle-btn').textContent = currentLang === 'en' ? 'EN' : 'TE';
+            document.getElementById('mob-lang-toggle-btn').textContent = currentLang === 'en' ? 'Switch to Telugu' : 'Switch to English';
+            updateStaticUI();
+            
+            renderCategoryPills();
+            renderHomeCards();
+            updateLibraryView();
+        };
+    </script>
+</body>
+</html>
+
