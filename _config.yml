@@ -1,0 +1,51 @@
+Site settings
+
+title: SatyamNow
+email: info@satyamnow.com
+description: >-
+Truth for Life. Answers from the Bible. Explore Christian apologetics,
+theology, and biblical truth in a modern, accessible format.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://www.google.com/search?q=https://yourusername.github.io" # the base hostname & protocol for your site
+
+Google Analytics / SEO
+
+twitter_username: satyamnow
+github_username:  yourusername
+
+Build settings
+
+theme: minima # We use a custom layout, but keep a default theme for fallback
+plugins:
+
+jekyll-feed
+
+jekyll-seo-tag
+
+Custom Variables
+
+header_pages:
+
+about.md
+
+topics.md
+
+contact.md
+
+Exclude from processing
+
+exclude:
+
+Gemfile
+
+Gemfile.lock
+
+node_modules
+
+vendor/bundle/
+
+vendor/cache/
+
+vendor/gems/
+
+vendor/ruby/
