@@ -1,0 +1,9 @@
+# Jekyll Exclusions
+/.vendor/
+/.sass-cache/
+/.jekyllrc
+_site/
+*.log
+*.lock
+Gemfile
+Gemfile.lock
